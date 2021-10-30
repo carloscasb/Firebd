@@ -1,0 +1,17 @@
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+// IMPORTAR TABS
+import Tabs from './Firebd/navigation/tabs';
+
+const App = () => {
+  return (
+
+    <NavigationContainer>
+       <Tabs />
+    </NavigationContainer>
+
+    
+    
+  );
+}
+export default App;
