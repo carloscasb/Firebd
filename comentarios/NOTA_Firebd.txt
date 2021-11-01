@@ -23,6 +23,7 @@
 
 ---DEPENDENCIAS NO DECORRER DO PROJETO
 # npm install --save styled-components
+# npm install --save react-native-vector-icons
 
 5---PAGINA HOME E CHAT em Firebd\screens\...
 -------HOEME.js
@@ -342,8 +343,261 @@ import CadastroScreen from '../screens/CadastroScreen';
     );
 ------ OK PERFEITO
 
-14---ESTILIZAR UM POUCO MAIS
+14---ESTILIZAR UM POUCO MAIS. vamos trabalhar com o state dos TouchableOpacity em sua propriredade opcacidade
+----- VAMOS FAZER UM EFEITO CO A OPACIDADE DO ITEM
+----SE O STATE (state.index===0) QUE TIVER ATIVADO A OPACIDADE VAI SER 1 DO CONTRARIO VAI SER 0,5
+---O ZERO É A POSIÇÂO DO State (ITEM)  ---isso é tela 0, 1, 2,
+return (
+        //CRIA NOSSO COMPONENTE TABAREA
+        <TabArea>
+                <TabItem onPress={()=>goTo('Home')}>
+                <Image style={{width:24, height:24, opacity: state.index===0? 1 : 0.5 }} source={require('../assets/icons/casa.png')} />
+               
+                </TabItem>
 
----2:27
+                <TabItem onPress={()=>goTo('Chat')}>
+                <Image style={{width:24, height:24, opacity: state.index===1? 1 : 0.5}} source={require('../assets/images/leitura.png')} />
+                </TabItem>
 
-15-----
+                <TabItem onPress={()=>goTo('Cadastro')}>
+                <Image style={{width:24, height:24,opacity: state.index===2? 1 : 0.5  }} source={require('../assets/icons/calend.png')} />
+                </TabItem>
+
+        </TabArea>
+
+    );
+
+---- //VAMOS FAZER UM COMPONENTES (TouchableOpacity) DIFERENTE PARA O ICONE DO MEIO NA CustomTabBar
+----- O TabItemCenter e SUBSTITUE O TabItem
+const TabItemCenter = styled.TouchableOpacity`
+    width: 70px;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFF;
+    border-radius: 35px;
+    border: 3px solid #4EADBE;
+    margin-top: -20px;
+`;
+--E SUBSTITUIR O TabItem pelo TabItemCenter
+
+ <TabItemCenter  onPress={()=>goTo('Chat')}>
+     <Image style={{width:24, height:24, opacity: state.index===1? 1 : 0.5}} source={require('../assets/images/leitura.png')} />
+  </TabItemCenter >              
+
+----ok PERFEITO
+
+
+15-----VAMOS REPLICAR UM TUTORIAL PAR INCLUSÃO DE ICONE
+
+---VAMOS SO SITE  https://github.com/oblador/react-native-vector-icons E CONSULTAMOS A BIBLIOTECA 
+---ELE PEDE PARA INSTALAR O vectoricons
+# npm install --save react-native-vector-icons
+
+---DEPOIS ELE PEDE PARA EDITAR O android/app/build.gradle
+----Edite android/app/build.gradle(NÃO android/build.gradle) e adicione o seguinte: (esse sinal de mais é para indicar, ele não vai)
+
+@ 
++ apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+NÃO FIZ-------Para personalizar os arquivos que estão sendo copiados, adicione o seguinte:
+@ 
++
+project.ext.vectoricons = [
+    iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf' ] // Name of the font files you want to copy
+]
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+----------------
+
+---EDITAR android/settings.gradle ------------ficar assim (sem o +):
+
+rootProject.name = 'MyApp'
+
+include ':app'
+
++ include ':react-native-vector-icons'
++ project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+
+
+--EDITAR android/app/build.gradle (nota: pasta do aplicativo) para ter esta aparência: EM DEPENDENCIAS
+
++ compile project(':react-native-vector-icons')
+
+QUANDO QUISSER USAR BASTA IMPORTAR A FONTE DESEJADA
+------import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+16----FAZER INTERAÇÃO FIREBASE
+
+---FAZER PROJETO NO FIREBASE -----PROJETO Tarefas
+---VAMOS USAR O WEB <\> --SEM Analytcs  -ESCOLHA O SDK DA WEB sem hosting E REGISTRE O APP
+ELE VAI DAR ESSSA CHAVE
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCgIp8PWWHYi-J1BFRBiuyM63rfDUfPVWk",
+  authDomain: "tarefas-fc676.firebaseapp.com",
+  projectId: "tarefas-fc676",
+  storageBucket: "tarefas-fc676.appspot.com",
+  messagingSenderId: "618486846165",
+  appId: "1:618486846165:web:0b5d8238052cd86951085c"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+------CLICK CONTINUAR NO CONSOLE
+-----VAI EM Cloud Firestore DO SEU PROJETO Tarefas E CRIE SEU BANCO DE DADOS
+---DEIXE EM MODO DE PRODUÇÃO e ESCOLHA AMERICA DO SUL (southamerica-east1)
+---PRONTO SEU BANCO DE DADOS ESTA PRONTO E CONFIGURADO PARA USO
+---PODEMOS CRIAR UMA COLEÇÂo - Tarefas e GERAR UM CODIGO AUTOMATICO
+---NA COLEÇÃO COLOCAR DOIS CAMPOS description (estuda javascript) TIPO string e satus (false) TIPO BoOLLEAN
+---PRONTO TEMOS UMA BD COM UMA COLEÇÃO DE DOIS CAMPOS E UM ID
+---NA ENGRENAGEM (configurações do projeto) PODEMOS PEGAR AS INFORMAÇÕES QUE PRECISAMOS
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCgIp8PWWHYi-J1BFRBiuyM63rfDUfPVWk",
+  authDomain: "tarefas-fc676.firebaseapp.com",
+  projectId: "tarefas-fc676",
+  storageBucket: "tarefas-fc676.appspot.com",
+  messagingSenderId: "618486846165",
+  appId: "1:618486846165:web:0b5d8238052cd86951085c"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+---PARA PODEMOS USAR NO APP, VAMOS EM REGRA DE SEGURANÇÂO E COLOCAR PARA true e MANDAR PUBLICAR
+---ISSO NOS PERMITIR TRABALHAR ---DEPOIS FAREMOSAS REGRAS DE SEUGRANçA
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+
+
+17-----FAZER AS CONFIGURAÇÂO NO NOSSO PROJETO react native (Firebd)
+
+---INSTALAR FIREBASE
+# npm install --save @react-native-firebase/app
+# npm install firebase
+18 ---VAMOS CRIAR UMA PASTA config em Firebd e DENTRO DELA UMA ARQUIVO firebaseconfig.js
+---A TELA firebaseconfig.js FICA ASSIM
+import React from 'react'; 
+import firebase from "@react-native-firebase/app"
+ import 'firebase/storage';
+ /*
+import  firebase from '@react-native-firebase/app'
+
+*/
+// Importe as funções de que você precisa dos SDKs de que precisa
+//import { initializeApp } from "firebase/app";
+
+//Configuração do Firebase do seu aplicativo da web
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCgIp8PWWHYi-J1BFRBiuyM63rfDUfPVWk",
+    authDomain: "tarefas-fc676.firebaseapp.com",
+    projectId: "tarefas-fc676",
+    storageBucket: "tarefas-fc676.appspot.com",
+    messagingSenderId: "618486846165",
+    appId: "1:618486846165:web:0b5d8238052cd86951085c"
+  };
+  
+  // Initialize Firebase // 
+ const app =initializeApp(firebaseConfig);
+  /* 
+//// CRIA UMA CONSTANTE (apelido) PARA USA EM OUTRA PARTE DO PROJETO
+ const database = firebase.firestore();
+ */
+ export default app
+
+
+19-----PROSSEGUINDO NO PROJETO VAMOS CRIAS MAS TRES TELAS E COLOCAR 2 NA CUSTOMTABBAR
+----TELAS: TAREFA, NOVA TAREFA E DETALHES
+----REPETIR PASSO 13 DESTA NOTA
+----LEMMBRADO DE NUMERAR AS TELAS NO EFITO OPACIDADE
+  <TabArea>
+                <TabItem onPress={()=>goTo('Home')}>
+                <Image style={{width:24, height:24, opacity: state.index===0? 1 : 0.5 }} source={require('../assets/icons/casa.png')} />
+                </TabItem>
+
+                <TabItem onPress={()=>goTo('Tarefa')}>
+                <Image style={{width:24, height:24, opacity: state.index===1? 1 : 0.5 }} source={require('../assets/images/leitura.png')} />
+                </TabItem>
+
+                <TabItemCenter  onPress={()=>goTo('Chat')}>
+                <Image style={{width:24, height:24, opacity: state.index===2? 1 : 0.5}} source={require('../assets/icons/trevo.png')} />
+                </TabItemCenter >
+
+                <TabItem onPress={()=>goTo('NovaTarefa')}>
+                <Image style={{width:24, height:24, opacity: state.index===3? 1 : 0.5 }} source={require('../assets/icons/star_vazia.png')} />
+                </TabItem>
+
+                <TabItem onPress={()=>goTo('Cadastro')}>
+                <Image style={{width:24, height:24,opacity: state.index===4? 1 : 0.5  }} source={require('../assets/icons/calend.png')} />
+                </TabItem>
+
+        </TabArea>
+
+20-----VAMOS TRABALHAR UM POUCO COM A TELAS Tarefa.js
+--ESTA ASSIM, NORMAL
+import React from "react";
+import { View, Text } from "react-native";
+
+export default function Tarefa(){
+
+return (
+<View>
+<Text>Tela de Tarefa</Text>
+
+</View>
+
+);
+
+}
+------COMO ELE ESTA SOBRE O navigation, O CABECALHO ATIVO PODEMOS MUDAR A COR EM Tabs.js com 
+<Tab.Screen name="Tarefa" component={Tarefa} options={{headerTintColor:'red'}} />
+O options DA BARRA DO navigation DAR PRA PASAR VARIAS propriedades
+
+-----MAS VAMOS NOS CONCENTRAR NA TELA Tarefa.js
+----PRIMEIRAMENTE PARA USAR O BANCO DE DADOS PRECISAMOS IMPORTA O ARQUICO firebaseconfig.js
+----ELA VAI UTILIZAR STATE E USEEFECCT ENTÂO VAMOS IMPORTAR, tambem o SafeAreaView, TouchableOpacity e flasList
+import React, {useState, useEffect} from "react";
+import database from '../config/firebaseconfig'
+import {SafeAreaView,
+    TouchableOpacity,
+    View,
+    Text,
+    FlatList
+     } from "react-native";
+
+---VAMOS FAZER UMS STATE QUE SERA UMA array QUE GUARDARA NOSSA TAREFAS
+const [Tarefas, setTarefas]=useState([])
+
+
+************* IGNORAR
+ERRO NO 30 MINUTO
+
+Erro: você tentou usar 'firebase.firestore', mas este módulo não foi encontrado.
+
+Certifique-se de ter instalado e importado o pacote '@ react-native-firebase / firestore'.
+
+npm install --save @react-native-firebase/firestore
+
+******************IGNORAR
+
