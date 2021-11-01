@@ -16,6 +16,20 @@ const TabItem = styled.TouchableOpacity`
    
 `;
 
+ //VAMOS FAZER UM COMPONENTES (TouchableOpacity) DIFERENTE PARA O ICONE DO MEIO NA CustomTabBar, 
+ //O TabItemCenter e SUBSTITUE O TabItem
+
+const TabItemCenter = styled.TouchableOpacity`
+    width: 70px;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFF;
+    border-radius: 35px;
+    border: 3px solid #4EADBE;
+    margin-top: -20px;
+`;
+
 export default ({state, navigation}) => {
   
 
@@ -27,19 +41,33 @@ export default ({state, navigation}) => {
      }
 
     return (
-        //CRIA NOSSO COMPONENTE TABAREA
+
+     //CRIA NOSSO COMPONENTE TABAREA
+     /*  VAMOS FAZER UM EFEITO CO A OPACIDADE DO ITEM
+        ----SE O STATE (state.index===0) QUE TIVER ATIVADO A OPACIDADE VAI SER 1 DO CONTRARIO VAI SER 0,5
+        ---O ZERO É A POSIÇÂO DO State (ITEM) ---isso é tela 0, 1, 2,
+     */
+     /*   SUBSTITUIR O TabItem pelo TabItemCenter  */
+
         <TabArea>
                 <TabItem onPress={()=>goTo('Home')}>
-                <Image style={{width:24, height:24}} source={require('../assets/icons/casa.png')} />
-               
+                <Image style={{width:24, height:24, opacity: state.index===0? 1 : 0.5 }} source={require('../assets/icons/casa.png')} />
                 </TabItem>
 
-                <TabItem onPress={()=>goTo('Chat')}>
-                <Image style={{width:24, height:24}} source={require('../assets/icons/calend.png')} />
+                <TabItem onPress={()=>goTo('Tarefa')}>
+                <Image style={{width:24, height:24, opacity: state.index===1? 1 : 0.5 }} source={require('../assets/images/leitura.png')} />
+                </TabItem>
+
+                <TabItemCenter  onPress={()=>goTo('Chat')}>
+                <Image style={{width:24, height:24, opacity: state.index===2? 1 : 0.5}} source={require('../assets/icons/trevo.png')} />
+                </TabItemCenter >
+
+                <TabItem onPress={()=>goTo('NovaTarefa')}>
+                <Image style={{width:24, height:24, opacity: state.index===3? 1 : 0.5 }} source={require('../assets/icons/star_vazia.png')} />
                 </TabItem>
 
                 <TabItem onPress={()=>goTo('Cadastro')}>
-                <Image style={{width:24, height:24}} source={require('../assets/icons/casa.png')} />
+                <Image style={{width:24, height:24,opacity: state.index===4? 1 : 0.5  }} source={require('../assets/icons/calend.png')} />
                 </TabItem>
 
         </TabArea>
