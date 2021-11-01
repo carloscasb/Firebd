@@ -10,6 +10,8 @@ const Tab=createBottomTabNavigator();
 import HomeScreen from '../screens/HomeScreen';
 import ChatScreen from '../screens/ChatScreen';
 import CadastroScreen from '../screens/CadastroScreen';
+import Tarefa from '../screens/Tarefa';
+import NovaTarefa from '../screens/NovaTarefa';
 
 // IMPORTAR o CustomTabBar
 import CustomTabBar from '../components/CustomTabBar';
@@ -22,7 +24,9 @@ usa na minha CustomTabBar
 */
     <Tab.Navigator tabBar={props=><CustomTabBar {...props} />}>
             <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Tarefa" component={Tarefa} options={{headerTintColor:'red'}} />
             <Tab.Screen name="Chat" component={ChatScreen} />
+            <Tab.Screen name="NovaTarefa" component={NovaTarefa} />
             <Tab.Screen name="Cadastro" component={CadastroScreen} />
     </Tab.Navigator>
     
