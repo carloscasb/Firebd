@@ -495,6 +495,12 @@ service cloud.firestore {
 ---INSTALAR FIREBASE
 # npm install --save @react-native-firebase/app
 # npm install firebase
+--------
+---APRESENTOU 40 VULNERABILIDADE - DIGITEI
+# npm audit fix --force
+
+
+
 18 ---VAMOS CRIAR UMA PASTA config em Firebd e DENTRO DELA UMA ARQUIVO firebaseconfig.js
 ---A TELA firebaseconfig.js FICA ASSIM
 import React from 'react'; 
@@ -590,6 +596,9 @@ import {SafeAreaView,
 const [Tarefas, setTarefas]=useState([])
 
 
+
+
+
 ************* IGNORAR
 ERRO NO 30 MINUTO
 
@@ -598,6 +607,163 @@ Erro: você tentou usar 'firebase.firestore', mas este módulo não foi encontra
 Certifique-se de ter instalado e importado o pacote '@ react-native-firebase / firestore'.
 
 npm install --save @react-native-firebase/firestore
+
+
+
+import React, {useState, useEffect} from "react";
+import database from '../config/firebaseconfig'
+//import { initializeApp } from 'firebase/app';
+import {SafeAreaView,
+    TouchableOpacity,
+    View,
+    Text,
+    FlatList,
+    AppState,
+    Alert
+     } from "react-native";
+import app from "../config/firebaseconfig";
+import { db } from  "../config/firebaseconfig";
+import { initializeApp } from "@firebase/app";
+
+
+
+export default function Tarefa(){
+
+  //  VAMOS FAZER UMS STATE QUE SERA UMA array QUE GUARDARA NOSSA TAREFAS
+ const [Tarefas, setTarefas]=useState([])
+
+ // QUANDO CARREGAR (UseEfecct) RECEBER NOSSAS TAREFAS (que estão dentro da nossa colegão no firebase )POR UMA arrayfunction 
+ /*
+        useEffect(()=>{ 
+         
+          app.collection("Tarefas").onSnapshot((query) => {
+                const list = [];
+                query.forEach((doc) => {
+                  list.push({ ...doc.data(), id: doc.id });
+                });
+                setTarefas(list);
+              });
+
+        }, [ ])
+*/
+/*
+useEffect(()=>{
+  Alert.alert(
+    "Alert Title")
+ })
+*/
+
+
+console.log ( setTarefas)
+
+        return (
+                <View>
+                <Text>Tela de Tarefa</Text>
+                
+
+                </View>
+
+        );
+
+}
+
+
+
+------------
+
+if(!firebase.apps.length){
+firebase.initializeApp(firebaseConfig);
+}
+export default firebase;
+
+
+import React, {useState, useEffect} from "react";
+import database from '../config/firebaseconfig.js'
+//import { initializeApp } from 'firebase/app';
+import {SafeAreaView,
+    TouchableOpacity,
+    View,
+    Text,
+    FlatList,
+    AppState,
+    Alert
+     } from "react-native";
+import app from "../config/firebaseconfig";
+import { db } from  "../config/firebaseconfig";
+import { initializeApp } from "@firebase/app";
+
+  import { Icon } from 'react-native-vector-icons';
+  import css from '../assets/css/Css';
+
+
+export default function Tarefa( {navigation} ){
+
+  //  VAMOS FAZER UMS STATE QUE SERA UMA array QUE GUARDARA NOSSA TAREFAS
+ const [Tarefas, setTarefas]=useState([])
+
+ // QUANDO CARREGAR (UseEfecct) RECEBER NOSSAS TAREFAS (que estão dentro da nossa colegão no firebase )POR UMA arrayfunction 
+ /*
+        useEffect(()=>{ 
+         
+          app.collection("Tarefas").onSnapshot((query) => {
+                const list = [];
+                query.forEach((doc) => {
+                  list.push({ ...doc.data(), id: doc.id });
+                });
+                setTarefas(list);
+              });
+
+        }, [ ])
+*/
+/*
+useEffect(()=>{
+  Alert.alert(
+    "Alert Title")
+ })
+
+// FUNÇÃO PARA DELETAR
+function deleteTask(id) {
+  database.collection("Tarefas").doc(id).delete();
+}
+*/
+
+console.log (database.collection)
+
+        return (
+                <View  style={css.container}>
+               <FlatList  showsHorizontalScrollIndicator = {false}
+               data = {Tarefas}
+                renderItem = { (item) => {
+              <View  style={css.Tasks}>
+
+                <TouchableOpacity style={css.deleteTask} 
+                 onPress={() => {
+                  deleteTalk(item.id) ;
+
+                 }}
+               >
+                
+               </TouchableOpacity>
+
+              </View>
+
+                }}
+
+               />
+               <TouchableOpacity style={css.buttonNewTask} 
+                 onPress={() => navigation.navigate("Detalhe")}
+               >
+                 <Text  style={css.IconButton}>+</Text>
+               </TouchableOpacity>
+                
+
+                </View>
+
+        );
+
+}
+
+
 
 ******************IGNORAR
 
